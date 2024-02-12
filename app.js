@@ -21,7 +21,7 @@ app.get("/getLength/:query", async (req, res) => {
   try {
     const rtrvd = await requestType["getLength"](query);
     console.log("Length fetched");
-    res.send(rtrvd);
+    res.send(rtrvd.toString());
   } catch (err) {
     console.error(err);
     res.status(500).send("error fetching nationalroad");
