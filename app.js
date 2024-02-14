@@ -9,22 +9,39 @@ app.use(express.json());
 //--------------------------------------------------------------------------------------
 const dbRequest = require("./lib/dbrequest");
 const requestType = {
-  getLength: async function (query) {
-    return await dbRequest.getLength(query);
+  getLength: async function (qry) {
+    return await dbRequest.getLength(qry);
+  },
+  getNFID: async function (qry) {
+    return await dbRequest.getNFID(qry);
   },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
 
-app.get("/getLength/:query", async (req, res) => {
-  const query = req.params.query === "null" ? null : req.params.query;
+app.get("/getLength/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
-    const rtrvd = await requestType["getLength"](query);
-    console.log("Length fetched");
+    const rtrvd = await requestType["getLength"](qry);
+    console.log("typeof getLength rtrvd at app: ", typeof rtrvd);
+    console.log("getLength rtrvd at app: ", rtrvd);
     res.send(rtrvd.toString());
   } catch (err) {
     console.error(err);
-    res.status(500).send("error fetching nationalroad");
+    res.status(500).send("error getLength at app");
+  }
+});
+
+app.get("/getNFID/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
+  try {
+    const rtrvd = await requestType["getNFID"](qry);
+    console.log("typeof getNFID rtrvd at app: ", typeof rtrvd);
+    console.log("getNFID rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (err) {
+    console.err(err);
+    res.status(500).send("error getNFID at app");
   }
 });
 
