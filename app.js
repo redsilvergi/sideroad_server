@@ -15,6 +15,12 @@ const requestType = {
   getNFID: async function (qry) {
     return await dbRequest.getNFID(qry);
   },
+  getCsv: async function (qry) {
+    return await dbRequest.getCsv(qry);
+  },
+  getGeoJ: async function (qry) {
+    return await dbRequest.getGeoJ(qry);
+  },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
@@ -23,8 +29,8 @@ app.get("/getLength/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getLength"](qry);
-    console.log("typeof getLength rtrvd at app: ", typeof rtrvd);
-    console.log("getLength rtrvd at app: ", rtrvd);
+    // console.log("typeof getLength rtrvd at app: ", typeof rtrvd);
+    // console.log("getLength rtrvd at app: ", rtrvd);
     res.send(rtrvd.toString());
   } catch (err) {
     console.error(err);
@@ -36,12 +42,38 @@ app.get("/getNFID/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getNFID"](qry);
-    console.log("typeof getNFID rtrvd at app: ", typeof rtrvd);
-    console.log("getNFID rtrvd at app: ", rtrvd);
+    // console.log("typeof getNFID rtrvd at app: ", typeof rtrvd);
+    // console.log("getNFID rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (err) {
     console.err(err);
     res.status(500).send("error getNFID at app");
+  }
+});
+
+app.get("/getCsv/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
+  try {
+    const rtrvd = await requestType["getCsv"](qry);
+    // console.log("typeof getCsv rtrvd at app: ", typeof rtrvd);
+    // console.log("getCsv rtrvd at app: ", rtrvd);
+    res.json(rtrvd);
+  } catch (err) {
+    console.err(err);
+    res.status(500).send("error getCsv at app");
+  }
+});
+
+app.get("/getGeoJ/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
+  try {
+    const rtrvd = await requestType["getGeoJ"](qry);
+    // console.log("typeof getCsv rtrvd at app: ", typeof rtrvd);
+    // console.log("getCsv rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (err) {
+    console.err(err);
+    res.status(500).send("error getGeoJ at app");
   }
 });
 
