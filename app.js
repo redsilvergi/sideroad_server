@@ -21,6 +21,9 @@ const requestType = {
   getCord: async function (qry) {
     return await dbRequest.getCord(qry);
   },
+  getSrchId: async function (qry) {
+    return await dbRequest.getSrchId(qry);
+  },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
@@ -74,6 +77,19 @@ app.get("/getCord/:qry", async (req, res) => {
   } catch (err) {
     console.err(err);
     res.status(500).send("error getCord at app");
+  }
+});
+
+app.get("/getSrchId/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
+  try {
+    const rtrvd = await requestType["getSrchId"](qry);
+    console.log("typeof getSrchId rtrvd at app: ", typeof rtrvd);
+    console.log("getSrchId rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (err) {
+    console.err(err);
+    res.status(500).send("error getSrchId at app");
   }
 });
 
