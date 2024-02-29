@@ -24,6 +24,9 @@ const requestType = {
   getSrchId: async function (qry) {
     return await dbRequest.getSrchId(qry);
   },
+  getTop5: async function (qry) {
+    return await dbRequest.getTop5(qry);
+  },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
@@ -71,8 +74,8 @@ app.get("/getCord/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getCord"](qry);
-    // console.log("typeof getCsv rtrvd at app: ", typeof rtrvd);
-    // console.log("getCsv rtrvd at app: ", rtrvd);
+    console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
+    console.log("getCord rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (err) {
     console.err(err);
@@ -84,12 +87,25 @@ app.get("/getSrchId/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getSrchId"](qry);
-    console.log("typeof getSrchId rtrvd at app: ", typeof rtrvd);
-    console.log("getSrchId rtrvd at app: ", rtrvd);
+    // console.log("typeof getSrchId rtrvd at app: ", typeof rtrvd);
+    // console.log("getSrchId rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (err) {
     console.err(err);
     res.status(500).send("error getSrchId at app");
+  }
+});
+
+app.get("/getTop5/:qry", async (req, res) => {
+  const qry = req.params.qry === "null" ? null : req.params.qry;
+  try {
+    const rtrvd = await requestType["getTop5"](qry);
+    console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
+    console.log("getTop5 rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (err) {
+    console.err(err);
+    res.status(500).send("error getTop5 at app");
   }
 });
 
