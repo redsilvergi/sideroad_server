@@ -44,19 +44,6 @@ app.get("/getLength/:qry", async (req, res) => {
   }
 });
 
-// app.get("/getNFID/:qry", async (req, res) => {
-//   const qry = req.params.qry === "null" ? null : req.params.qry;
-//   try {
-//     const rtrvd = await requestType["getNFID"](qry);
-//     // console.log("typeof getNFID rtrvd at app: ", typeof rtrvd);
-//     // console.log("getNFID rtrvd at app: ", rtrvd);
-//     res.send(rtrvd);
-//   } catch (err) {
-//     console.err(err);
-//     res.status(500).send("error getNFID at app");
-//   }
-// });
-
 app.get("/getCsv/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
@@ -74,8 +61,8 @@ app.get("/getCord/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getCord"](qry);
-    console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
-    console.log("getCord rtrvd at app: ", rtrvd);
+    // console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
+    // console.log("getCord rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (err) {
     console.err(err);
@@ -100,8 +87,8 @@ app.get("/getTop5/:qry", async (req, res) => {
   const qry = req.params.qry === "null" ? null : req.params.qry;
   try {
     const rtrvd = await requestType["getTop5"](qry);
-    console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
-    console.log("getTop5 rtrvd at app: ", rtrvd);
+    // console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
+    // console.log("getTop5 rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (err) {
     console.err(err);
