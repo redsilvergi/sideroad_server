@@ -39,6 +39,12 @@ const requestType = {
   getBar2sgg: async function (params) {
     return await dbRequest.getBar2sgg(params);
   },
+  getSidogjs: async function () {
+    return await dbRequest.getSidogjs();
+  },
+  getLdc: async function (qry) {
+    return await dbRequest.getLdc(qry);
+  },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
@@ -50,8 +56,8 @@ app.get('/getLength/:qry', async (req, res) => {
     // console.log("typeof getLength rtrvd at app: ", typeof rtrvd);
     // console.log("getLength rtrvd at app: ", rtrvd);
     res.send(rtrvd ? rtrvd.toString() : '0');
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     res.status(500).send('error getLength at app');
   }
 });
@@ -63,8 +69,8 @@ app.get('/getCsv/:qry', async (req, res) => {
     // console.log("typeof getCsv rtrvd at app: ", typeof rtrvd);
     // console.log("getCsv rtrvd at app: ", rtrvd);
     res.json(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getCsv at app');
   }
 });
@@ -76,8 +82,8 @@ app.get('/getCord/:item', async (req, res) => {
     // console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
     // console.log("getCord rtrvd at app: ", rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getCord at app');
   }
 });
@@ -89,8 +95,8 @@ app.get('/getSrchId/:qry', async (req, res) => {
     // console.log("typeof getSrchId rtrvd at app: ", typeof rtrvd);
     // console.log("getSrchId rtrvd at app: ", rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getSrchId at app');
   }
 });
@@ -102,8 +108,8 @@ app.get('/getTop5/:qry', async (req, res) => {
     // console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
     // console.log("getTop5 rtrvd at app: ", rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getTop5 at app');
   }
 });
@@ -123,8 +129,8 @@ app.get('/getEcon/:citem/:ldc/:yr', async (req, res) => {
     // console.log('typeof getEcon rtrvd at app: ', typeof rtrvd);
     // console.log('getEcon rtrvd at app: ', rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getEcon at app');
   }
 });
@@ -135,8 +141,8 @@ app.get('/getReg', async (req, res) => {
     // console.log('typeof getEcon rtrvd at app: ', typeof rtrvd);
     // console.log('getEcon rtrvd at app: ', rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getReg at app');
   }
 });
@@ -154,8 +160,8 @@ app.get('/getBar2sido/:tablenm/:yr', async (req, res) => {
     // console.log('typeof getBar2sido rtrvd at app: ', typeof rtrvd);
     // console.log('getBar2sido rtrvd at app: ', rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getBar2sido at app');
   }
 });
@@ -173,12 +179,39 @@ app.get('/getBar2sgg/:tablenm/:sidotmp/:yr', async (req, res) => {
     // console.log("typeof getBar2sgg rtrvd at app: ", typeof rtrvd);
     // console.log("getBar2sgg rtrvd at app: ", rtrvd);
     res.send(rtrvd);
-  } catch (err) {
-    console.err(err);
+  } catch (e) {
+    console.err(e);
     res.status(500).send('error getBar2sgg at app');
   }
 });
 
+app.get('/getSidogjs', async (req, res) => {
+  try {
+    console.log('gjsappgjsappgjsapp triggered');
+    const rtrvd = await requestType['getSidogjs']();
+    console.log('gjsrtrvdgjsrtrvdgjsrtrvd app:');
+    console.log(rtrvd);
+    res.json(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSiodgjs at app');
+  }
+});
+
+app.get('/getLdc/:ldc', async (req, res) => {
+  const ldc = req.params.ldc === 'null' ? null : req.params.ldc;
+  try {
+    console.log('getldc triggered');
+    const rtrvd = await requestType['getLdc'](ldc);
+    console.log('getLdc at app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getLdc at app');
+  }
+});
+
+// handling build
 const _dirname = path.dirname('');
 const buildPath = path.join(_dirname, './build');
 app.use(express.static(buildPath));
