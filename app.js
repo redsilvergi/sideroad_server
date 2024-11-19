@@ -42,6 +42,9 @@ const requestType = {
   getSidogjs: async function () {
     return await dbRequest.getSidogjs();
   },
+  getSgggjs: async function () {
+    return await dbRequest.getSgggjs();
+  },
   getLdc: async function (qry) {
     return await dbRequest.getLdc(qry);
   },
@@ -187,14 +190,24 @@ app.get('/getBar2sgg/:tablenm/:sidotmp/:yr', async (req, res) => {
 
 app.get('/getSidogjs', async (req, res) => {
   try {
-    console.log('gjsappgjsappgjsapp triggered');
     const rtrvd = await requestType['getSidogjs']();
-    console.log('gjsrtrvdgjsrtrvdgjsrtrvd app:');
-    console.log(rtrvd);
+    console.log('getSidogjs rtrvd app:\n', rtrvd);
     res.json(rtrvd);
   } catch (e) {
     console.error(e);
     res.status(500).send('error getSiodgjs at app');
+  }
+});
+
+app.get('/getSgggjs', async (req, res) => {
+  try {
+    console.log('sgggjssgggjs triggered');
+    const rtrvd = await requestType['getSgggjs']();
+    console.log('getSgggjs rtrvd app:\n', rtrvd);
+    res.json(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSgggjs at app');
   }
 });
 
