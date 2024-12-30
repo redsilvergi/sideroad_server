@@ -9,6 +9,12 @@ app.use(express.json());
 //--------------------------------------------------------------------------------------
 const dbRequest = require('./lib/dbrequest');
 const requestType = {
+  getLength2: async function (body) {
+    return await dbRequest.getLength2(body);
+  },
+  getLength4: async function (body) {
+    return await dbRequest.getLength4(body);
+  },
   getLength: async function (qry) {
     return await dbRequest.getLength(qry);
   },
@@ -18,8 +24,14 @@ const requestType = {
   getCsv: async function (qry) {
     return await dbRequest.getCsv(qry);
   },
-  getCord: async function (item) {
-    return await dbRequest.getCord(item);
+  getCord: async function (params) {
+    return await dbRequest.getCord(params);
+  },
+  getProp: async function (params) {
+    return await dbRequest.getProp(params);
+  },
+  getShap: async function (params) {
+    return await dbRequest.getShap(params);
   },
   getSrchId: async function (qry) {
     return await dbRequest.getSrchId(qry);
@@ -45,22 +57,92 @@ const requestType = {
   getSgggjs: async function () {
     return await dbRequest.getSgggjs();
   },
-  getLdc: async function (qry) {
-    return await dbRequest.getLdc(qry);
+  getLdc: async function (ldc) {
+    return await dbRequest.getLdc(ldc);
+  },
+  getSide1r: async function (params) {
+    return await dbRequest.getSide1r(params);
+  },
+  getSidesmp: async function () {
+    return await dbRequest.getSidesmp();
+  },
+  getPie1: async function (params) {
+    return await dbRequest.getPie1(params);
+  },
+  ////////////////////////////////////////
+  getPfrjs: async function () {
+    return await dbRequest.getPfrjs();
+  },
+  getPfrParks: async function (sggid) {
+    return await dbRequest.getPfrParks(sggid);
+  },
+  getPfrParksBuffer: async function (sggid) {
+    return await dbRequest.getPfrParksBuffer(sggid);
+  },
+  getPfrSafezoneC: async function (sggid) {
+    return await dbRequest.getPfrSafezoneC(sggid);
+  },
+  getPfrSafezoneS: async function (sggid) {
+    return await dbRequest.getPfrSafezoneS(sggid);
+  },
+  getPfrMultfac: async function (sggid) {
+    return await dbRequest.getPfrMultfac(sggid);
+  },
+  getPfrMultfacEntr: async function (sggid) {
+    return await dbRequest.getPfrMultfacEntr(sggid);
+  },
+  getPfrSchoolBld: async function (sggid) {
+    return await dbRequest.getPfrSchoolBld(sggid);
+  },
+  getPfrSchlBuffer: async function (sggid) {
+    return await dbRequest.getPfrSchlBuffer(sggid);
+  },
+  getPfrSchlEntr: async function (sggid) {
+    return await dbRequest.getPfrSchlEntr(sggid);
+  },
+  getTopPfr: async function (sggid) {
+    return await dbRequest.getTopPfr(sggid);
   },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
+app.post('/getLength2', async (req, res) => {
+  const body = req.body;
+  try {
+    console.log('app getLength2 triggered and body\n', body);
+    const rtrvd = await requestType['getLength2'](body);
+    console.log('getLength2 rtrvd app:\n', rtrvd);
+    res.send({ total_length: rtrvd });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getLength2 at app');
+  }
+});
+
+app.post('/getLength4', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app getLength4 triggered and body\n', body);
+    const rtrvd = await requestType['getLength4'](body);
+    console.log('getLength4 rtrvd app:\n', rtrvd);
+    res.send({ total_length: rtrvd });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getLength4 at app');
+  }
+});
 
 app.get('/getLength/:qry', async (req, res) => {
   const qry = req.params.qry === 'null' ? null : req.params.qry;
+  console.log('getlength qry at app\n', qry);
+
   try {
     const rtrvd = await requestType['getLength'](qry);
     // console.log("typeof getLength rtrvd at app: ", typeof rtrvd);
     // console.log("getLength rtrvd at app: ", rtrvd);
     res.send(rtrvd ? rtrvd.toString() : '0');
   } catch (e) {
-    console.erroror(e);
+    console.error(e);
     res.status(500).send('error getLength at app');
   }
 });
@@ -78,16 +160,42 @@ app.get('/getCsv/:qry', async (req, res) => {
   }
 });
 
-app.get('/getCord/:item', async (req, res) => {
-  const item = req.params.item === 'null' ? null : req.params.item;
+app.get('/getCord/:params', async (req, res) => {
+  const params = req.params.params === 'null' ? null : req.params.params;
   try {
-    const rtrvd = await requestType['getCord'](item);
+    const rtrvd = await requestType['getCord'](params);
     // console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
     // console.log("getCord rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
     res.status(500).send('error getCord at app');
+  }
+});
+
+app.get('/getProp/:params', async (req, res) => {
+  const params = req.params.params === 'null' ? null : req.params.params;
+  try {
+    const rtrvd = await requestType['getProp'](params);
+    // console.log("typeof getProp rtrvd at app: ", typeof rtrvd);
+    // console.log("getProp rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getProp at app');
+  }
+});
+
+app.get('/getShap/:params', async (req, res) => {
+  const params = req.params.params === 'null' ? null : req.params.params;
+  try {
+    const rtrvd = await requestType['getShap'](params);
+    // console.log("typeof getShap rtrvd at app: ", typeof rtrvd);
+    // console.log("getShap rtrvd at app: ", rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getShap at app');
   }
 });
 
@@ -105,7 +213,7 @@ app.get('/getSrchId/:qry', async (req, res) => {
 });
 
 app.get('/getTop5/:ldc/:rsktype', async (req, res) => {
-  console.log('getop5 reqparams\n', req.params);
+  // console.log('getop5 reqparams\n', req.params);
 
   const params = Object.fromEntries(
     Object.entries(req.params).map(([key, val]) => [
@@ -198,22 +306,22 @@ app.get('/getBar2sgg/:tablenm/:sidotmp/:yr', async (req, res) => {
 app.get('/getSidogjs', async (req, res) => {
   try {
     const rtrvd = await requestType['getSidogjs']();
-    console.log('getSidogjs rtrvd app:\n', rtrvd);
+    // console.log('getSidogjs rtrvd app:\n', rtrvd);
     res.json(rtrvd);
   } catch (e) {
-    console.erroror(e);
+    console.error(e);
     res.status(500).send('error getSiodgjs at app');
   }
 });
 
 app.get('/getSgggjs', async (req, res) => {
   try {
-    console.log('sgggjssgggjs triggered');
+    // console.log('sgggjssgggjs triggered');
     const rtrvd = await requestType['getSgggjs']();
-    console.log('getSgggjs rtrvd app:\n', rtrvd);
+    // console.log('getSgggjs rtrvd app:\n', rtrvd);
     res.json(rtrvd);
   } catch (e) {
-    console.erroror(e);
+    console.error(e);
     res.status(500).send('error getSgggjs at app');
   }
 });
@@ -221,13 +329,186 @@ app.get('/getSgggjs', async (req, res) => {
 app.get('/getLdc/:ldc', async (req, res) => {
   const ldc = req.params.ldc === 'null' ? null : req.params.ldc;
   try {
-    console.log('getldc triggered');
+    // console.log('getldc triggered');
     const rtrvd = await requestType['getLdc'](ldc);
-    console.log('getLdc at app:\n', rtrvd);
+    // console.log('getLdc at app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
-    console.erroror(e);
+    console.error(e);
     res.status(500).send('error getLdc at app');
+  }
+});
+
+app.get('/getSide1r/:minx/:miny/:maxx/:maxy', async (req, res) => {
+  const params = Object.fromEntries(
+    Object.entries(req.params).map(([key, val]) => [
+      key,
+      val === 'null' ? null : val,
+    ])
+  );
+  try {
+    // console.log('getSide1r triggered app');
+    const rtrvd = await requestType['getSide1r'](params);
+    // console.log('getSide1r rtrvd app:\n', rtrvd);
+    res.json(rtrvd);
+    // console.log('appgetside1rreq\n', req.query);
+
+    // res.send('heelow');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSide1r at app');
+  }
+});
+
+app.get('/getSidesmp', async (req, res) => {
+  try {
+    // console.log('SidesmpSidesmp triggered');
+    const rtrvd = await requestType['getSidesmp']();
+    // console.log('getSidesmp rtrvd app:\n', rtrvd);
+    res.json(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSidesmp at app');
+  }
+});
+
+app.get('/getPie1/:col/:ldc', async (req, res) => {
+  const params = Object.fromEntries(
+    Object.entries(req.params).map(([key, val]) => [
+      key,
+      val === 'null' ? null : val,
+    ])
+  );
+  try {
+    // console.log('getPie1 triggered');
+    const rtrvd = await requestType['getPie1'](params);
+    // console.log('getPie1 rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPie1 at app');
+  }
+});
+
+/////////////////////////////////////////////////////////////////
+
+app.get('/getPfrjs', async (req, res) => {
+  try {
+    const rtrvd = await requestType['getPfrjs']();
+    res.json(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrjs at app');
+  }
+});
+
+app.get('/getPfrdata/parks/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrParks'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrParks at app');
+  }
+});
+
+app.get('/getPfrdata/parks_buffer/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrParksBuffer'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrParksBuffer at app');
+  }
+});
+
+app.get('/getPfrdata/ch_safe_zone/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrSafezoneC'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrSafezoneC at app');
+  }
+});
+
+app.get('/getPfrdata/sn_safe_zone/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrSafezoneS'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrSafezoneS at app');
+  }
+});
+
+app.get('/getPfrdata/multfac/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrMultfac'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrMultfac at app');
+  }
+});
+
+app.get('/getPfrdata/multfac_entr/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrMultfacEntr'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrMultfacEntr at app');
+  }
+});
+
+app.get('/getPfrdata/schl_bld/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrSchoolBld'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrSchoolBld at app');
+  }
+});
+
+app.get('/getPfrdata/schl_buffer/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrSchlBuffer'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrSchlBuffer at app');
+  }
+});
+
+app.get('/getPfrdata/schl_entr/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getPfrSchlEntr'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrSchlEntr at app');
+  }
+});
+
+app.get('/getTopPfr/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === 'null' ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getTopPfr'](sggid);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getTopPfr at app');
   }
 });
 
