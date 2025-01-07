@@ -36,9 +36,9 @@ const requestType = {
   getSrchId: async function (qry) {
     return await dbRequest.getSrchId(qry);
   },
-  getTop5: async function (params) {
-    return await dbRequest.getTop5(params);
-  },
+  // getTop5: async function (params) {
+  //   return await dbRequest.getTop5(params);
+  // },
   getEcon: async function (params) {
     return await dbRequest.getEcon(params);
   },
@@ -212,25 +212,25 @@ app.get('/getSrchId/:qry', async (req, res) => {
   }
 });
 
-app.get('/getTop5/:ldc/:rsktype', async (req, res) => {
-  // console.log('getop5 reqparams\n', req.params);
+// app.get('/getTop5/:ldc/:rsktype', async (req, res) => {
+//   // console.log('getop5 reqparams\n', req.params);
 
-  const params = Object.fromEntries(
-    Object.entries(req.params).map(([key, val]) => [
-      key,
-      val === 'null' ? null : val,
-    ])
-  );
-  try {
-    const rtrvd = await requestType['getTop5'](params);
-    // console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
-    // console.log("getTop5 rtrvd at app: ", rtrvd);
-    res.send(rtrvd);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send('error getTop5 at app');
-  }
-});
+//   const params = Object.fromEntries(
+//     Object.entries(req.params).map(([key, val]) => [
+//       key,
+//       val === 'null' ? null : val,
+//     ])
+//   );
+//   try {
+//     const rtrvd = await requestType['getTop5'](params);
+//     // console.log("typeof getTop5 rtrvd at app: ", typeof rtrvd);
+//     // console.log("getTop5 rtrvd at app: ", rtrvd);
+//     res.send(rtrvd);
+//   } catch (e) {
+//     console.error(e);
+//     res.status(500).send('error getTop5 at app');
+//   }
+// });
 
 app.get('/getEcon/:citem/:ldc/:yr', async (req, res) => {
   // console.log('getEcon reqparams at app: ', req.params);
