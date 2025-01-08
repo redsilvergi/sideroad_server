@@ -5,6 +5,9 @@ const path = require('path');
 
 app.use(cors());
 app.use(express.json());
+// Routes
+const authRoutes = require('./routes/auth');
+app.use('/api', authRoutes);
 
 //--------------------------------------------------------------------------------------
 const dbRequest = require('./lib/dbrequest');
@@ -68,6 +71,9 @@ const requestType = {
   },
   getPie1: async function (params) {
     return await dbRequest.getPie1(params);
+  },
+  postSrvy: async function (body) {
+    return await dbRequest.postSrvy(body);
   },
   ////////////////////////////////////////
   getPfrjs: async function () {
@@ -387,6 +393,19 @@ app.get('/getPie1/:col/:ldc', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).send('error getPie1 at app');
+  }
+});
+
+app.post('/postSrvy', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['postSrvy'](body);
+    console.log('postSrvy rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error postSrvy at app');
   }
 });
 
