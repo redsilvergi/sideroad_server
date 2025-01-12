@@ -75,6 +75,28 @@ const requestType = {
   postSrvy: async function (body) {
     return await dbRequest.postSrvy(body);
   },
+  getSrvyhist: async function (body) {
+    return await dbRequest.getSrvyhist(body);
+  },
+  getCsvSrvy: async function (body) {
+    return await dbRequest.getCsvSrvy(body);
+  },
+  getSrvyItem: async function (body) {
+    return await dbRequest.getSrvyItem(body);
+  },
+  delSrvyItem: async function (body) {
+    return await dbRequest.delSrvyItem(body);
+  },
+  editSrvy: async function (body) {
+    return await dbRequest.editSrvy(body);
+  },
+  getCordOnly: async function (body) {
+    return await dbRequest.getCordOnly(body);
+  },
+  getCsvGen1: async function (body) {
+    return await dbRequest.getCsvGen1(body);
+  },
+
   ////////////////////////////////////////
   getPfrjs: async function () {
     return await dbRequest.getPfrjs();
@@ -108,6 +130,24 @@ const requestType = {
   },
   getTopPfr: async function (sggid) {
     return await dbRequest.getTopPfr(sggid);
+  },
+  submitTable: async function (data) {
+    return await dbRequest.submitTable(data);
+  },
+  getSurveyBuffer: async function (ids) {
+    return await dbRequest.getSurveyBuffer(ids);
+  },
+  getSurveyBufferMask: async function (ids) {
+    return await dbRequest.getSurveyBufferMask(ids);
+  },
+  getSrvData: async function (ids) {
+    return await dbRequest.getSrvData(ids);
+  },
+  getLstLength: async function (ids) {
+    return await dbRequest.getLstLength(ids);
+  },
+  getPfrProps: async function (ids) {
+    return await dbRequest.getPfrProps(ids);
   },
 };
 //--------------------------------------------------------------------------------------
@@ -409,6 +449,97 @@ app.post('/postSrvy', async (req, res) => {
   }
 });
 
+app.post('/getSrvyhist', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['getSrvyhist'](body);
+    console.log('getSrvyhist rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSrvyhist at app');
+  }
+});
+
+app.post('/getCsvSrvy', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['getCsvSrvy'](body);
+    console.log('getCsvSrvy rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getCsvSrvy at app');
+  }
+});
+
+app.post('/getSrvyItem', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['getSrvyItem'](body);
+    console.log('getSrvyItem rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSrvyItem at app');
+  }
+});
+
+app.post('/delSrvyItem', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['delSrvyItem'](body);
+    console.log('delSrvyItem rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error delSrvyItem at app');
+  }
+});
+
+app.post('/editSrvy', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app editSrvy triggered and body\n', body);
+    const rtrvd = await requestType['editSrvy'](body);
+    console.log('editSrvy rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error editSrvy at app');
+  }
+});
+
+app.post('/getCordOnly', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app getCordOnly triggered and body\n', body);
+    const rtrvd = await requestType['getCordOnly'](body);
+    console.log('getCordOnly rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getCordOnly at app');
+  }
+});
+
+app.post('/getCsvGen1', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['getCsvGen1'](body);
+    console.log('getCsvGen1 rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getCsvGen1 at app');
+  }
+});
+
 /////////////////////////////////////////////////////////////////
 
 app.get('/getPfrjs', async (req, res) => {
@@ -528,6 +659,72 @@ app.get('/getTopPfr/:sggid', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).send('error getTopPfr at app');
+  }
+});
+
+app.post('/submit-table', async (req, res) => {
+  const { data } = req.body;
+  try {
+    const sbmt = await requestType['submitTable'](data);
+    res.send({ success: sbmt });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('error inserting table');
+  }
+});
+
+app.get('/getSurveyBuffer', async (req, res) => {
+  try {
+    const { ids } = req.query;
+    const rtrvd = await requestType['getSurveyBuffer'](ids);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSurveyBuffer at app');
+  }
+});
+
+app.get('/getSurveyBufferMask', async (req, res) => {
+  try {
+    const { ids } = req.query;
+    const rtrvd = await requestType['getSurveyBufferMask'](ids);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSurveyBufferMask at app');
+  }
+});
+
+app.get('/getSrvData', async (req, res) => {
+  const { ids } = req.query;
+  try {
+    const rtrvd = await requestType['getSrvData'](ids);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getSrvData at app');
+  }
+});
+
+app.get('/getLstLength', async (req, res) => {
+  const { ids } = req.query;
+  try {
+    const rtrvd = await requestType['getLstLength'](ids);
+    res.send({ total_length: rtrvd });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getLstLength at app');
+  }
+});
+
+app.get('/getPfrProps', async (req, res) => {
+  const { ids } = req.query;
+  try {
+    const rtrvd = await requestType['getPfrProps'](ids);
+    res.send({ data: rtrvd });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getPfrProps at app');
   }
 });
 
