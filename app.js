@@ -96,6 +96,9 @@ const requestType = {
   getCsvGen1: async function (body) {
     return await dbRequest.getCsvGen1(body);
   },
+  getRiskPrcnt: async function (body) {
+    return await dbRequest.getRiskPrcnt(body);
+  },
 
   ////////////////////////////////////////
   getPfrjs: async function () {
@@ -149,6 +152,9 @@ const requestType = {
   getPfrProps: async function (ids) {
     return await dbRequest.getPfrProps(ids);
   },
+  getNfidLstByRoadnm: async function (road_nm) {
+    return await dbRequest.getNfidLstByRoadnm(road_nm);
+  },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
@@ -171,7 +177,7 @@ app.post('/getLength4', async (req, res) => {
     // console.log('app getLength4 triggered and body\n', body);
     const rtrvd = await requestType['getLength4'](body);
     console.log('getLength4 rtrvd app:\n', rtrvd);
-    res.send({ total_length: rtrvd });
+    res.send({ total_length: rtrvd ?? 0 });
   } catch (e) {
     console.error(e);
     res.status(500).send('error getLength4 at app');
@@ -540,6 +546,19 @@ app.post('/getCsvGen1', async (req, res) => {
   }
 });
 
+app.post('/getRiskPrcnt', async (req, res) => {
+  const body = req.body;
+  try {
+    // console.log('app postSrvy triggered and body\n', body);
+    const rtrvd = await requestType['getRiskPrcnt'](body);
+    console.log('getRiskPrcnt rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getRiskPrcnt at app');
+  }
+});
+
 /////////////////////////////////////////////////////////////////
 
 app.get('/getPfrjs', async (req, res) => {
@@ -725,6 +744,33 @@ app.get('/getPfrProps', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).send('error getPfrProps at app');
+  }
+});
+
+app.get('/getNfidLstByRoadnm/:road_nm', async (req, res) => {
+  const road_nm = req.params?.road_nm;
+  try {
+    const rtrvd = await requestType['getNfidLstByRoadnm'](road_nm);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getNfidLstByRoadnm at app');
+  }
+});
+
+app.get('/manual', async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'public/files/Manual_2501.pdf');
+
+    res.download(filePath, 'Manual_2501.pdf', (err) => {
+      if (err) {
+        console.error('Error downloading manual:', err);
+        res.status(500).send('Error downloading manual');
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching manual');
   }
 });
 
