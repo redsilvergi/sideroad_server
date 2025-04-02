@@ -161,9 +161,9 @@ const requestType = {
 app.post('/getLength2', async (req, res) => {
   const body = req.body;
   try {
-    console.log('app getLength2 triggered and body\n', body);
+    // console.log('app getLength2 triggered and body\n', body);
     const rtrvd = await requestType['getLength2'](body);
-    console.log('getLength2 rtrvd app:\n', rtrvd);
+    // console.log('getLength2 rtrvd app:\n', rtrvd);
     res.send({ total_length: rtrvd });
   } catch (e) {
     console.error(e);
@@ -176,7 +176,7 @@ app.post('/getLength4', async (req, res) => {
   try {
     // console.log('app getLength4 triggered and body\n', body);
     const rtrvd = await requestType['getLength4'](body);
-    console.log('getLength4 rtrvd app:\n', rtrvd);
+    // console.log('getLength4 rtrvd app:\n', rtrvd);
     res.send({ total_length: rtrvd ?? 0 });
   } catch (e) {
     console.error(e);
@@ -186,7 +186,7 @@ app.post('/getLength4', async (req, res) => {
 
 app.get('/getLength/:qry', async (req, res) => {
   const qry = req.params.qry === 'null' ? null : req.params.qry;
-  console.log('getlength qry at app\n', qry);
+  // console.log('getlength qry at app\n', qry);
 
   try {
     const rtrvd = await requestType['getLength'](qry);
@@ -447,7 +447,7 @@ app.post('/postSrvy', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['postSrvy'](body);
-    console.log('postSrvy rtrvd app:\n', rtrvd);
+    // console.log('postSrvy rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -460,7 +460,7 @@ app.post('/getSrvyhist', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['getSrvyhist'](body);
-    console.log('getSrvyhist rtrvd app:\n', rtrvd);
+    // console.log('getSrvyhist rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -473,7 +473,7 @@ app.post('/getCsvSrvy', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['getCsvSrvy'](body);
-    console.log('getCsvSrvy rtrvd app:\n', rtrvd);
+    // console.log('getCsvSrvy rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -486,7 +486,7 @@ app.post('/getSrvyItem', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['getSrvyItem'](body);
-    console.log('getSrvyItem rtrvd app:\n', rtrvd);
+    // console.log('getSrvyItem rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -499,7 +499,7 @@ app.post('/delSrvyItem', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['delSrvyItem'](body);
-    console.log('delSrvyItem rtrvd app:\n', rtrvd);
+    // console.log('delSrvyItem rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -512,7 +512,7 @@ app.post('/editSrvy', async (req, res) => {
   try {
     // console.log('app editSrvy triggered and body\n', body);
     const rtrvd = await requestType['editSrvy'](body);
-    console.log('editSrvy rtrvd app:\n', rtrvd);
+    // console.log('editSrvy rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -525,7 +525,7 @@ app.post('/getCordOnly', async (req, res) => {
   try {
     // console.log('app getCordOnly triggered and body\n', body);
     const rtrvd = await requestType['getCordOnly'](body);
-    console.log('getCordOnly rtrvd app:\n', rtrvd);
+    // console.log('getCordOnly rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -538,7 +538,7 @@ app.post('/getCsvGen1', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['getCsvGen1'](body);
-    console.log('getCsvGen1 rtrvd app:\n', rtrvd);
+    // console.log('getCsvGen1 rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
@@ -551,7 +551,7 @@ app.post('/getRiskPrcnt', async (req, res) => {
   try {
     // console.log('app postSrvy triggered and body\n', body);
     const rtrvd = await requestType['getRiskPrcnt'](body);
-    console.log('getRiskPrcnt rtrvd app:\n', rtrvd);
+    // console.log('getRiskPrcnt rtrvd app:\n', rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
