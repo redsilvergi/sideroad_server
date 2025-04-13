@@ -7,11 +7,14 @@ app.use(cors());
 app.use(express.json());
 // Routes
 const authRoutes = require('./routes/auth');
-app.use('/api', authRoutes);
+app.use('/auth', authRoutes);
 
 //--------------------------------------------------------------------------------------
 const dbRequest = require('./lib/dbrequest');
 const requestType = {
+  getMbkey: async function () {
+    return await dbRequest.getMbkey();
+  },
   getLength2: async function (body) {
     return await dbRequest.getLength2(body);
   },
@@ -24,8 +27,8 @@ const requestType = {
   // getNFID: async function (qry) {
   //   return await dbRequest.getNFID(qry);
   // },
-  getCsv: async function (qry) {
-    return await dbRequest.getCsv(qry);
+  getCsvPfr: async function (sggid) {
+    return await dbRequest.getCsvPfr(sggid);
   },
   getCord: async function (params) {
     return await dbRequest.getCord(params);
@@ -152,12 +155,23 @@ const requestType = {
   getPfrProps: async function (ids) {
     return await dbRequest.getPfrProps(ids);
   },
-  getNfidLstByRoadnm: async function (road_nm) {
-    return await dbRequest.getNfidLstByRoadnm(road_nm);
+  getTouchedLinks: async function (nf_id) {
+    return await dbRequest.getTouchedLinks(nf_id);
   },
 };
 //--------------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////
+app.get('/getMbkey', async (req, res) => {
+  try {
+    const rtrvd = await requestType['getMbkey']();
+    // console.log('getMbkey rtrvd app:\n', rtrvd);
+    res.send(rtrvd);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getMbkey at app');
+  }
+});
+
 app.post('/getLength2', async (req, res) => {
   const body = req.body;
   try {
@@ -199,16 +213,27 @@ app.get('/getLength/:qry', async (req, res) => {
   }
 });
 
-app.get('/getCsv/:qry', async (req, res) => {
-  const qry = req.params.qry === 'null' ? null : req.params.qry;
+app.get('/getLstLength', async (req, res) => {
+  const { ids } = req.query;
   try {
-    const rtrvd = await requestType['getCsv'](qry);
-    // console.log("typeof getCsv rtrvd at app: ", typeof rtrvd);
-    // console.log("getCsv rtrvd at app: ", rtrvd);
+    const rtrvd = await requestType['getLstLength'](ids);
+    res.send({ total_length: rtrvd });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('error getLstLength at app');
+  }
+});
+
+app.get('/getCsvPfr/:sggid', async (req, res) => {
+  const sggid = req.params.sggid === null ? null : req.params.sggid;
+  try {
+    const rtrvd = await requestType['getCsvPfr'](sggid);
+    // console.log("typeof getCsvPfr rtrvd at app: ", typeof rtrvd);
+    // console.log("getCsvPfr rtrvd at app: ", rtrvd);
     res.json(rtrvd);
   } catch (e) {
     console.error(e);
-    res.status(500).send('error getCsv at app');
+    res.status(500).send('error getCsvPfr at app');
   }
 });
 
@@ -747,14 +772,14 @@ app.get('/getPfrProps', async (req, res) => {
   }
 });
 
-app.get('/getNfidLstByRoadnm/:road_nm', async (req, res) => {
-  const road_nm = req.params?.road_nm;
+app.get('/getTouchedLinks/:nf_id', async (req, res) => {
+  const nf_id = req.params?.nf_id;
   try {
-    const rtrvd = await requestType['getNfidLstByRoadnm'](road_nm);
+    const rtrvd = await requestType['getTouchedLinks'](nf_id);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
-    res.status(500).send('error getNfidLstByRoadnm at app');
+    res.status(500).send('error getTouchedLinks at app');
   }
 });
 

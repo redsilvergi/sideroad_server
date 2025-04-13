@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
-const myDB = require('../config/config');
+const config_obj = require('../config/config');
 const { Pool } = require('pg');
 
 // CONNECTION -----------------------------------------------------
 const dbconn = () => {
-  const client = new Pool(myDB.dbConfig);
+  const client = new Pool(config_obj.dbConfig);
   return client;
 };
 const client = dbconn();
@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid User' });
     }
 
-    console.log('/auth usercheck passed');
+    // console.log('/auth usercheck passed');
 
     // compare password
     const isMatch = await bcrypt.compare(password, user.password);
@@ -46,14 +46,18 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid Password' });
     }
 
-    console.log('/auth passwordisMatch passed');
+    // console.log('/auth passwordisMatch passed');
 
     // generate jwt
-    const token = jwt.sign({ id: user.id, role: user.role }, myDB.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      config_obj.JWT_SECRET,
+      {
+        expiresIn: '1h',
+      }
+    );
 
-    console.log('/auth tokenJWT passed');
+    // console.log('/auth tokenJWT passed');
 
     res.json({
       token,
