@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -7,7 +9,9 @@ app.use(cors());
 app.use(express.json());
 // Routes
 const authRoutes = require('./routes/auth');
+// const gem_apiRoutes = require('./routes/gem_api');
 app.use('/auth', authRoutes);
+// app.use('/gem_api', gem_apiRoutes);
 
 //--------------------------------------------------------------------------------------
 const dbRequest = require('./lib/dbrequest');
