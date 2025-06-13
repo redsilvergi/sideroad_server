@@ -24,7 +24,7 @@ yarn-error.log*
 
 #build
 /build
-
+/_buildpast
 #plus
 .prettierrc
 .env
