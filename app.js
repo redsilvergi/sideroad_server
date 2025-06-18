@@ -34,8 +34,8 @@ const requestType = {
   getCsvPfr: async function (sggid) {
     return await dbRequest.getCsvPfr(sggid);
   },
-  getCord: async function (params) {
-    return await dbRequest.getCord(params);
+  getCordOnly: async function (params) {
+    return await dbRequest.getCordOnly(params);
   },
   getProp: async function (params) {
     return await dbRequest.getProp(params);
@@ -43,8 +43,8 @@ const requestType = {
   getShap: async function (params) {
     return await dbRequest.getShap(params);
   },
-  getSrchId: async function (qry) {
-    return await dbRequest.getSrchId(qry);
+  getSrchId: async function (params) {
+    return await dbRequest.getSrchId(params);
   },
   // getTop5: async function (params) {
   //   return await dbRequest.getTop5(params);
@@ -96,9 +96,6 @@ const requestType = {
   },
   editSrvy: async function (body) {
     return await dbRequest.editSrvy(body);
-  },
-  getCordOnly: async function (body) {
-    return await dbRequest.getCordOnly(body);
   },
   getCsvGen1: async function (body) {
     return await dbRequest.getCsvGen1(body);
@@ -241,16 +238,16 @@ app.get('/getCsvPfr/:sggid', async (req, res) => {
   }
 });
 
-app.get('/getCord/:params', async (req, res) => {
+app.get('/getCordOnly/:params', async (req, res) => {
   const params = req.params.params === 'null' ? null : req.params.params;
   try {
-    const rtrvd = await requestType['getCord'](params);
-    // console.log("typeof getCord rtrvd at app: ", typeof rtrvd);
-    // console.log("getCord rtrvd at app: ", rtrvd);
+    const rtrvd = await requestType['getCordOnly'](params);
+    // console.log("typeof getCordOnly rtrvd at app: ", typeof rtrvd);
+    // console.log("getCordOnly rtrvd at app: ", rtrvd);
     res.send(rtrvd);
   } catch (e) {
     console.error(e);
-    res.status(500).send('error getCord at app');
+    res.status(500).send('error getCordOnly at app');
   }
 });
 
@@ -280,10 +277,10 @@ app.get('/getShap/:params', async (req, res) => {
   }
 });
 
-app.get('/getSrchId/:qry', async (req, res) => {
-  const qry = req.params.qry === 'null' ? null : req.params.qry;
+app.get('/getSrchId/:params', async (req, res) => {
+  const params = req.params.params === 'null' ? null : req.params.params;
   try {
-    const rtrvd = await requestType['getSrchId'](qry);
+    const rtrvd = await requestType['getSrchId'](params);
     // console.log("typeof getSrchId rtrvd at app: ", typeof rtrvd);
     // console.log("getSrchId rtrvd at app: ", rtrvd);
     res.send(rtrvd);
@@ -546,19 +543,6 @@ app.post('/editSrvy', async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).send('error editSrvy at app');
-  }
-});
-
-app.post('/getCordOnly', async (req, res) => {
-  const body = req.body;
-  try {
-    // console.log('app getCordOnly triggered and body\n', body);
-    const rtrvd = await requestType['getCordOnly'](body);
-    // console.log('getCordOnly rtrvd app:\n', rtrvd);
-    res.send(rtrvd);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send('error getCordOnly at app');
   }
 });
 
